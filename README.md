@@ -1,9 +1,10 @@
 # PQSideView
 ![image](https://github.com/poqiao/PQSideView/blob/master/app/src/main/assets/tup.gif)
+### 导入以下依赖
 ```Java
  implementation 'com.github.poqiao:PQSideView:1.0.0"
  ```
- ###可设置背景颜色，字体颜色，提示view的颜色，文字大小根据高度来获取，
+ ### 可设置背景颜色，字体颜色，提示view的颜色，文字大小根据高度来获取，
  ```Java
    <com.mxq.pqsideview.PQSideBar
         android:layout_width="120dp"
