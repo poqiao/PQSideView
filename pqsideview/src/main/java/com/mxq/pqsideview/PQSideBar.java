@@ -47,12 +47,12 @@ public class PQSideBar extends View {
         mTextSelectColor = array.getColor (R.styleable.PQSideBar_text_select_color, Color.RED);
         mHintTextColor = array.getColor (R.styleable.PQSideBar_hint_text_color, Color.WHITE);
         mHintBgColor = array.getColor (R.styleable.PQSideBar_hint_bg_color, Color.GRAY);
-        mBgColor = array.getColor (R.styleable.PQSideBar_bg_color, Color.GRAY);
+        mBgColor = array.getColor (R.styleable.PQSideBar_bg_color, Color.TRANSPARENT);
         mBgSelectColor = array.getColor (R.styleable.PQSideBar_bg_select_color, Color.BLUE);
         mPaint = new Paint (Paint.ANTI_ALIAS_FLAG);
         mPaint.setAntiAlias (true);
         mPath = new Path ();
-        mBarW = dp2px (90);
+        mBarW = dp2px (90);//hintdialog的宽度加间隔
         mDialogH = dp2px (50);
 
     }
