@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 侧边字母-->
+    <declare-styleable name="PQSideBar">
+        <attr name="text_normal_color" format="color|reference" />
+        <attr name="text_select_color" format="color|reference" />
+        <attr name="bg_color" format="color|reference" />
+        <attr name="bg_select_color" format="color|reference" />
+        <attr name="hint_text_color" format="color|reference" />
+        <attr name="hint_bg_color" format="color|reference" />
+    </declare-styleable>
+
+</resources>
