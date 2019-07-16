@@ -1,4 +1,5 @@
 # PQSideView
+![image](https://github.com/poqiao/PQSideView/blob/master/app/src/main/assets/tup.gif)
 ```Java
 <declare-styleable name="PQSideBar">
         未选择状态下的文字颜色
