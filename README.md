@@ -1,5 +1,6 @@
 # PQSideView
 ![image](https://github.com/poqiao/PQSideView/blob/master/app/src/main/assets/tup.gif)
+![image](https://github.com/poqiao/PQSideView/blob/master/app/src/main/assets/as.gif)
 ### 导入以下依赖
 ```Java
  implementation 'com.github.poqiao:PQSideView:1.0.1"
