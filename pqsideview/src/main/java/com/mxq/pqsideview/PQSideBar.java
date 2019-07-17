@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +21,7 @@ import android.view.View;
  */
 
 public class PQSideBar extends View {
-    private float mW, mH;
+    private int mW, mH;
     private Paint mPaint;
     private int mTextNormalColor;
     private int mTextSelectColor;
@@ -31,7 +33,8 @@ public class PQSideBar extends View {
     private int mChoose = -1;
     private Path mPath;
     private float mBarW;
-
+    private int mType;
+    private Rect mRect;
     private float mLine, mDialogW, mDialogH;
 
     public PQSideBar(Context context) {
@@ -49,12 +52,13 @@ public class PQSideBar extends View {
         mHintBgColor = array.getColor (R.styleable.PQSideBar_hint_bg_color, Color.GRAY);
         mBgColor = array.getColor (R.styleable.PQSideBar_bg_color, Color.TRANSPARENT);
         mBgSelectColor = array.getColor (R.styleable.PQSideBar_bg_select_color, Color.BLUE);
+        mType= array.getInt (R.styleable.PQSideBar_hint_type,1);
         mPaint = new Paint (Paint.ANTI_ALIAS_FLAG);
         mPaint.setAntiAlias (true);
         mPath = new Path ();
-        mBarW = dp2px (90);//hintdialog的宽度加间隔
+       // mBarW = dp2px (90);//hintdialog的宽度加间隔
         mDialogH = dp2px (50);
-
+        mRect = new Rect ();
     }
 
 
@@ -73,8 +77,12 @@ public class PQSideBar extends View {
         canvas.drawRoundRect (0, 0, mW, mH, 0, 0, mPaint);
         mPaint.setColor (mTextNormalColor);
         float a = (mH - mDialogH) / indexes.length;
-        mPaint.setTextSize (a - 20);//10 为上下padding
+        mPaint.setTextSize (a - 20);//20 为上下padding
         mPaint.setTextAlign (Paint.Align.CENTER);
+
+        mPaint.getTextBounds (indexes[0],0,indexes[0].length (),mRect);
+
+        mBarW  = mW- a-5;
         for (int i = 0; i < indexes.length; i++) {
             canvas.drawText (indexes[i], mBarW + (mW - mBarW) / 2, a / 2 - (mPaint.descent () + mPaint.ascent ()) / 2 + a * i + mDialogH / 2, mPaint);
         }
@@ -86,11 +94,15 @@ public class PQSideBar extends View {
 
             mPaint.setColor (mHintBgColor);
             canvas.drawCircle (mDialogH / 2 + 5, a * mChoose + a / 2 + mDialogH / 2, mDialogH / 2, mPaint);
-            mPath.moveTo (mDialogH / 2 + mLine + 5, a * mChoose + a / 2 + mDialogH / 2 - mLine);
-            mPath.lineTo (mDialogW + 5, a * mChoose + a / 2 + mDialogH / 2);
-            mPath.lineTo (mDialogH / 2 + mLine + 5, a * mChoose + a / 2 + mLine + mDialogH / 2);
-            mPaint.setStrokeJoin (Paint.Join.MITER);
-            canvas.drawPath (mPath, mPaint);
+            if (mType==2)//为圆加正方形
+            {
+                mPath.moveTo (mDialogH / 2 + mLine + 5, a * mChoose + a / 2 + mDialogH / 2 - mLine);
+                mPath.lineTo (mDialogW + 5, a * mChoose + a / 2 + mDialogH / 2);
+                mPath.lineTo (mDialogH / 2 + mLine + 5, a * mChoose + a / 2 + mLine + mDialogH / 2);
+                mPaint.setStrokeJoin (Paint.Join.MITER);
+                canvas.drawPath (mPath, mPaint);
+
+            }
             mPaint.setColor (Color.WHITE);
             mPaint.setTextAlign (Paint.Align.CENTER);
             int size = sp2px (25);
@@ -108,11 +120,19 @@ public class PQSideBar extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure (widthMeasureSpec, heightMeasureSpec);
-        mW = MeasureSpec.getSize (widthMeasureSpec);
-        mH = MeasureSpec.getSize (heightMeasureSpec);
+        int mode = MeasureSpec.getMode (widthMeasureSpec);
+        if (mode==MeasureSpec.AT_MOST||mode==MeasureSpec.UNSPECIFIED)
+        {
+            mW = dp2px (120);//注意，mW的大小和mDialogH有关系， 最小的mW = mDialogW+文字大小+5;
+        }else {
+            mW = MeasureSpec.getSize (widthMeasureSpec);
+        }
 
+        mH = MeasureSpec.getSize (heightMeasureSpec);
+        setMeasuredDimension (mW,mH);
         mLine = (float) (mDialogH / 2 / Math.sqrt (2));
         mDialogW = (int) (mDialogH / 2 + 2 * mLine);
+    //mDialogH 为50dp 的话，  mLine = 25/(1.41)=17.7=18dp,   mDialogW==25+18*2=61dp
     }
 
     @Override

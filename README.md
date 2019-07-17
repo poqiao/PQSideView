@@ -31,5 +31,10 @@
         <attr name="hint_text_color" format="color|reference" />
        <!-- 提示的背景颜色-->
         <attr name="hint_bg_color" format="color|reference" />
+        <!--提示的类型-->
+        <attr name="hint_type" format="enum">
+            <enum name="circle" value="1"/>
+            <enum name="circle_right_angle" value="2"/>
+        </attr>
     </declare-styleable>
 ```
